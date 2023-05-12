@@ -32,7 +32,7 @@ pipeline {
             echo "Pipeline is completed"
         }
         success { 
-           discordSend description: 'Build successfull', footer: '', image: '', link: '', result: 'success', scmWebUrl: '', thumbnail: '', title: '', webhookURL: 'https://discord.com/api/webhooks/1106442492049621013/G9LS3pX-cj4OE0fVo2UnxY4LwG8AwWwRPGyE-Fg9S80mI7dbvmFeflS8rSpOtlCz7Lyx'
+           discordSend description: 'Build successfull', footer: '', image: '', link: '', result: 'SUCCESS', scmWebUrl: '', thumbnail: '', title: '', webhookURL: 'https://discord.com/api/webhooks/1106442492049621013/G9LS3pX-cj4OE0fVo2UnxY4LwG8AwWwRPGyE-Fg9S80mI7dbvmFeflS8rSpOtlCz7Lyx'
         }
     }
 }
