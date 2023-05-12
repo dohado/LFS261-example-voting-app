@@ -18,7 +18,7 @@ pipeline {
             
           when { 
             branch "master"
-            changheset "**/worker/**"
+            changeset "**/worker/**"
           }
             
             steps {
