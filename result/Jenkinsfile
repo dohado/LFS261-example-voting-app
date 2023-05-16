@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    tools {
+        nodejs "nodejs 20.1.0"
+    }
+    stages{
+        stage("build"){
+            when {
+                changeset "**/result/**"
+            }
+            steps{
+                echo 'Building worker app'
+                dir('result'){
+                    sh 'npm install'
+                }
+            }
+        }
+        stage("test"){
+            when {
+                changeset "**/result/**"
+            }
+            steps{
+                echo 'Running Unit Tests on worker app'
+                dir('result'){
+                    sh 'npm install; npm test'
+                }
+            }
+        }
+    }
+    post{
+        always{
+            echo 'Building multibranch pipeline for worker is completed..'
+        }
+    }
+}
