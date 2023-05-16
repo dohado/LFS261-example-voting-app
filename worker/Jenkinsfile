@@ -11,7 +11,7 @@ pipeline {
                 changeset "**/worker/**"
             }
             steps{
-                echo 'Compiling worker app'
+                echo 'Compiling worker app inside maven container'
                 dir('worker'){
                     sh 'mvn compile'
                 }
