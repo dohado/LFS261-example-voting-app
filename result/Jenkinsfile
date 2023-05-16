@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tool {
+        nodejs "nodejs 20.1.0"
+    }
     stages{
         stage("build"){
             when {
