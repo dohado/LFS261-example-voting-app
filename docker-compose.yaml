@@ -1,0 +1,19 @@
+services:
+  vote:
+    image: dehado/vote:v1
+    ports:
+      - 5000:80
+  
+  redis:
+    image: redis:alpine
+
+  db:
+    image: postgres:9.4
+
+  result:
+    image: dehado/result:v1
+    ports:
+      - 5001:4000
+
+  worker:
+    image: dehado/worker:v3
