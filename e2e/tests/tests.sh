@@ -39,13 +39,13 @@ if [ -z "$new" ]; then new=$next; else echo "Not NULL"; fi
 echo -e "I: Checking if votes tally......\n"
 
 if [ "$next" -eq "$new" ]; then
-  echo -e "\\e[42m------------"
-  echo -e "\\e[92mTests passed"
-  echo -e "\\e[42m------------"
+  echo -e "------------"
+  echo -e "Tests passed"
+  echo -e "------------"
   exit 0
 else
-  echo -e "\\e[41m------------"
-  echo -e "\\e[91mTests failed"
-  echo -e "\\e[41m------------"
+  echo -e "------------"
+  echo -e "Tests failed"
+  echo -e "------------"
   exit 1
 fi
