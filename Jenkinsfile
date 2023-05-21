@@ -68,7 +68,9 @@ pipeline {
           echo 'Packaging worker app with docker'
           script{
             docker.withRegistry('https://index.docker.io/v1/','dockerlogin'){
-              docker.build("dehado/worker:v${env.BUILD_NUMBER}", "./worker").push()
+              def workerImage = docker.build("dehado/worker:v${env.BUILD_NUMBER}", "./worker")
+              workerImage.push()
+              workerImage.push('latest')
             }
           }
         }
@@ -118,7 +120,9 @@ pipeline {
           echo 'Packaging result app with docker'
           script{
             docker.withRegistry('https://index.docker.io/v1/','dockerlogin'){
-              docker.build("dehado/result:v${env.BUILD_NUMBER}", "./result").push()
+              def resultImage = docker.build("dehado/result:v${env.BUILD_NUMBER}", "./result")
+              resultImage.push()
+              resultImage.push('latest')
             }
           }
         }
@@ -187,6 +191,7 @@ pipeline {
             docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
               def voteImage = docker.build("dehado/vote:${env.BUILD_NUMBER}", "./vote")
               voteImage.push()
+              voteImage.push('latest')
             }
           }
         }
