@@ -197,48 +197,61 @@ pipeline {
         }
       }
 
-       stage('Sonarqube') {
-      agent any
-      when{
-        branch 'master'
-      }
-      // tools {
-       // jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
-     // }
-
-      environment{
-        sonarpath = tool 'SonarScanner'
-      }
-
-      steps {
-            echo 'Running Sonarqube Analysis..'
-            withSonarQubeEnv('sonar-instavote') {
-              sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
-            }
-      }
-      }
-
-
-    stage("Quality Gate") {
-        steps {
-            timeout(time: 1, unit: 'HOURS') {
-                // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                // true = set pipeline to UNSTABLE, false = don't
-                waitForQualityGate abortPipeline: true
-            }
-        }
-    }
-
-      stage('deploy to dev') {
+      stage('Sonarqube') {
         agent any
-        when {
+        when{
           branch 'master'
         }
-        steps {
-          echo 'Deploy instavote app with docker compose'
-          sh 'docker-compose up -d'
+        // tools {
+       // jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
+       // }
+
+        environment{
+          sonarpath = tool 'SonarScanner'
         }
-      }    
+
+        steps {
+          echo 'Running Sonarqube Analysis..'
+          withSonarQubeEnv('sonar-instavote') {
+            sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
+          }
+        }
+      }
+
+
+      stage("Quality Gate") {
+        steps {
+          timeout(time: 1, unit: 'HOURS') {
+                // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                // true = set pipeline to UNSTABLE, false = don't
+            waitForQualityGate abortPipeline: true
+          }
+        }
+      }
+
+      // stage('deploy to dev') {
+      //   agent any
+      //   when {
+      //     branch 'master'
+      //   }
+      //   steps {
+      //     echo 'Deploy instavote app with docker compose'
+      //     sh 'docker-compose up -d'
+      //   }
+      // }
+
+      stage('Trigger deployment') {
+        agent any
+        environment{
+          def GIT_COMMIT = "${env.GIT_COMMIT}"
+        }
+        steps{
+          echo "${GIT_COMMIT}"
+          echo "triggering deployment"
+          // passing variables to job deployment run by vote-deploy repository Jenkinsfile
+          build job: 'deployment', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
+        }    
+      }     
     
     }
 
