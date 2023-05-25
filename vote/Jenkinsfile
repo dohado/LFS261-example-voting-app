@@ -140,9 +140,9 @@ pipeline {
         }
         steps {
           echo 'Compiling vote app.'
-          // dir(path: 'vote') {
+          dir(path: 'vote') {
             sh 'pip install -r requirements.txt'
-          // }
+          }
         }
       }
 
@@ -158,10 +158,10 @@ pipeline {
         }
         steps {
           echo 'Running Unit Tests on vote app.'
-          // dir(path: 'vote') {
+          dir(path: 'vote') {
             sh 'pip install -r requirements.txt'
             sh 'nosetests -v'
-          // }
+          }
         }
       }
 
@@ -173,9 +173,9 @@ pipeline {
         } 
         steps{ 
           echo 'Running Integration Tests on vote app' 
-          // dir('vote'){ 
+          dir('vote'){ 
             sh 'sh integration_test.sh' 
-          // } 
+          } 
         } 
       } 
 
